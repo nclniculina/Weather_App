@@ -1,0 +1,41 @@
+// ===== API Schlüssel =====
+// Hier muss dein eigener API Key von OpenWeatherMap eingefügt werden
+const apiKey = "DEIN_API_KEY_HIER";
+
+// Elemente aus dem HTML holen
+const cityInput = document.getElementById("cityInput");
+const searchBtn = document.getElementById("searchBtn");
+const weatherResult = document.getElementById("weatherResult");
+
+// Event Listener für den Button
+searchBtn.addEventListener("click", getWeather);
+
+// Funktion zum Abrufen der Wetterdaten
+function getWeather() {
+
+    const city = cityInput.value;
+
+    // URL für die API Anfrage
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=de&appid=${apiKey}`;
+
+    // Anfrage an die API senden
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+            // Daten aus der API extrahieren
+            const temperature = data.main.temp;
+            const description = data.weather[0].description;
+            const cityName = data.name;
+
+            // Ergebnis auf der Seite anzeigen
+            weatherResult.innerHTML = `
+                <h2>${cityName}</h2>
+                <p>🌡 Temperatur: ${temperature}°C</p>
+                <p>☁ Wetter: ${description}</p>
+            `;
+        })
+        .catch(error => {
+            weatherResult.innerHTML = "Fehler beim Laden der Wetterdaten.";
+        });
+}
