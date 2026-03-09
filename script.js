@@ -7,6 +7,13 @@ const cityInput = document.getElementById("cityInput");
 const searchBtn = document.getElementById("searchBtn");
 const weatherResult = document.getElementById("weatherResult");
 
+// Suche starten, wenn Enter gedrückt wird
+cityInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        getWeather();
+    }
+});
+
 // Event Listener für den Button
 searchBtn.addEventListener("click", getWeather);
 
@@ -27,10 +34,12 @@ function getWeather() {
             const temperature = data.main.temp;
             const description = data.weather[0].description;
             const cityName = data.name;
+            const icon = data.weather[0].icon;
 
             // Ergebnis auf der Seite anzeigen
             weatherResult.innerHTML = `
                 <h2>${cityName}</h2>
+                <img src="https://openweathermap.org/img/wn/${icon}@2x.png">
                 <p>🌡 Temperatur: ${temperature}°C</p>
                 <p>☁ Wetter: ${description}</p>
             `;
